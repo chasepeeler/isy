@@ -1,0 +1,27 @@
+{
+    "versionLabel": "1.0.0",
+    "uuid": "2ad9ccf0-45fd-4c4e-8bb6-dda6eaa151c6",
+    "appKeys": {
+        "status": 0,
+        "command": 1
+    },
+    "longName": "isy",
+    "versionCode": 1,
+    "capabilities": [
+        ""
+    ],
+    "shortName": "isy",
+    "companyName": "chasepeeler",
+    "watchapp": {
+        "watchface": false
+    },
+    "resources": {
+        "media": [
+            {
+                "type": "png",
+                "name": "POWER_ICON",
+                "file": "images/Untitled.png"
+            }
+        ]
+    }
+}
