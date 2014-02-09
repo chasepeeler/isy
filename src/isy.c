@@ -14,6 +14,7 @@ static GBitmap *powerBitmap;
 enum IsyKey {
   STATUS_KEY = 0x0,         // TUPLE_CSTRING
   COMMAND_KEY = 0x1, // TUPLE_INT
+  DEVICE_KEY = 0x2 //TUPLE_CSTRING
 
 };
 
@@ -43,10 +44,21 @@ static void sync_tuple_changed_callback(const uint32_t key, const Tuple* new_tup
 	static char status_message[] = "Current Status: Off";
 	switch (key) {
     case STATUS_KEY:
+    text_layer_set_text(status_layer,"");
+    if(strcmp(new_tuple->value->cstring,"") != 0){
+
+
 	  snprintf(status_message, sizeof(status_message), "Current Status: %s",new_tuple->value->cstring);
-      text_layer_set_text(status_layer, status_message);
+    text_layer_set_text(status_layer, status_message);
+    }
 	  APP_LOG(APP_LOG_LEVEL_DEBUG, "New Status: %s", new_tuple->value->cstring);
       break;
+    case DEVICE_KEY:
+    text_layer_set_text(text_layer,"");
+     if(strcmp(new_tuple->value->cstring,"Need Configuration") == 0){
+      text_layer_set_text(status_layer,"");
+     }
+     text_layer_set_text(text_layer,new_tuple->value->cstring);
 
   }
 }
@@ -72,6 +84,7 @@ APP_LOG(APP_LOG_LEVEL_DEBUG, "Off Requested");
 }
 */
 void click_config_provider(void *context) {
+
   window_single_click_subscribe(BUTTON_ID_SELECT, (ClickHandler) select_click_handler);
 }
 
@@ -93,7 +106,7 @@ static void window_load(Window *window) {
    const int16_t height = layer_get_frame(window_layer).size.h;
   text_layer = text_layer_create((GRect) { .origin = { 0, 0 }, .size = { width, height/2 } });
   text_layer_set_font(text_layer, fonts_get_system_font(FONT_KEY_GOTHIC_28_BOLD));
-  text_layer_set_text(text_layer, "Den Lamp");
+  text_layer_set_text(text_layer, "");
 //  text_layer_set_text_alignment(text_layer, GTextAlignmentCenter);
   layer_add_child(window_layer, text_layer_get_layer(text_layer));
 	
@@ -105,8 +118,9 @@ static void window_load(Window *window) {
   layer_add_child(window_layer, text_layer_get_layer(status_layer));
 	
 	Tuplet initial_values[] = {
-    	TupletCString(STATUS_KEY, "NA"),
-		TupletInteger(COMMAND_KEY, 0)
+    	TupletCString(STATUS_KEY, ""),
+		TupletInteger(COMMAND_KEY, 0),
+		TupletCString(DEVICE_KEY,"")
     };
 	app_sync_init(&sync, sync_buffer, sizeof(sync_buffer), initial_values, ARRAY_LENGTH(initial_values),
     sync_tuple_changed_callback, sync_error_callback, NULL);

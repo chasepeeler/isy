@@ -3,12 +3,13 @@
     "uuid": "2ad9ccf0-45fd-4c4e-8bb6-dda6eaa151c6",
     "appKeys": {
         "status": 0,
-        "command": 1
+        "command": 1,
+				"device": 2
     },
     "longName": "isy",
     "versionCode": 1,
     "capabilities": [
-        ""
+        "configurable"
     ],
     "shortName": "isy",
     "companyName": "chasepeeler",
